@@ -2226,22 +2226,22 @@ NodeTest.prototype.matches = function(n, xpc) {
 			}
 			return false;
 		case NodeTest.NAMETESTQNAME:
-			if (n.nodeType == 2 /*Node.ATTRIBUTE_NODE*/
-					|| n.nodeType == 1 /*Node.ELEMENT_NODE*/
-					|| n.nodeType == XPathNamespace.XPATH_NAMESPACE_NODE) {
-				var test = Utilities.resolveQName(this.value, xpc.namespaceResolver, xpc.expressionContextNode, false);
+			if (n.nodeType === 2 /*Node.ATTRIBUTE_NODE*/
+					|| n.nodeType === 1 /*Node.ELEMENT_NODE*/
+					|| n.nodeType === XPathNamespace.XPATH_NAMESPACE_NODE) {
+                var test = Utilities.resolveQName(this.value, xpc.namespaceResolver, xpc.expressionContextNode, n.nodeType === Node.ELEMENT_NODE);
 				if (test[0] == null) {
 					throw new Error("Cannot resolve QName " + this.value);
 				}
 				test[0] = String(test[0]);
 				test[1] = String(test[1]);
-				if (test[0] == "") {
+				if (test[0] === "") {
 					test[0] = null;
 				}
 				var node = Utilities.resolveQName(n.nodeName, xpc.namespaceResolver, n, n.nodeType == 1 /*Node.ELEMENT_NODE*/);
 				node[0] = String(node[0]);
 				node[1] = String(node[1]);
-				if (node[0] == "") {
+				if (node[0] === "") {
 					node[0] = null;
 				}
 				if (xpc.caseInsensitive) {
