@@ -2,3 +2,5 @@ node_modules/
 p.js
 p.xml
 *.svclog
+*.iml
+.idea/

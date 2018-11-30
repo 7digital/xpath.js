@@ -2,22 +2,30 @@
     "name": "xpath.js",
     "version": "1.1.0",
     "description": "Xpath pure javascript implementation for node.js",
-    "engines": { "node": ">=0.4.0" },
+    "engines": {
+        "node": ">=0.4.0"
+    },
     "author": "Cameron McCormack (http://mcc.id.au/xpathjs), Yaron Naveh (yaronn01@gmail.com, http://webservices20.blogspot.com/)",
     "dependencies": {
-
-     },
-     "devDependencies": {
-        "nodeunit": ">=0.6.4"
-     },
-    "repository" : {
-        "type":"git",
-        "url":"https://github.com/7digital/xpath.js" },
-    "main": "./xpath.js",
-    "directories": { },
-    "scripts":    {
-        "test": "nodeunit tests/test.js"
+        "fs": "0.0.1-security",
+        "jest": "^23.6.0",
+        "xmldom": "^0.1.27"
     },
-    "keywords": ["xpath", "xml"],
+    "devDependencies": {
+        "nodeunit": ">=0.6.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/7digital/xpath.js"
+    },
+    "main": "./xpath.js",
+    "directories": {},
+    "scripts": {
+        "test": "jest"
+    },
+    "keywords": [
+        "xpath",
+        "xml"
+    ],
     "license": "MIT"
 }

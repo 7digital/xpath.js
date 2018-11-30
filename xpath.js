@@ -2229,7 +2229,7 @@ NodeTest.prototype.matches = function(n, xpc) {
 			if (n.nodeType === 2 /*Node.ATTRIBUTE_NODE*/
 					|| n.nodeType === 1 /*Node.ELEMENT_NODE*/
 					|| n.nodeType === XPathNamespace.XPATH_NAMESPACE_NODE) {
-                var test = Utilities.resolveQName(this.value, xpc.namespaceResolver, xpc.expressionContextNode, n.nodeType === Node.ELEMENT_NODE);
+                var test = Utilities.resolveQName(this.value, xpc.namespaceResolver, xpc.expressionContextNode, n.nodeType === 1 /*Node.ELEMENT_NODE*/);
 				if (test[0] == null) {
 					throw new Error("Cannot resolve QName " + this.value);
 				}
@@ -2778,6 +2778,10 @@ AVLTree.prototype.getDepthFromChildren = function() {
     }
 };
 
+function container(n1) {
+    return (n1.parentNode || n1.ownerElement);
+}
+
 AVLTree.prototype.order = function(n1, n2) {
 	if (n1 === n2) {
 		return 0;
@@ -2795,7 +2799,7 @@ AVLTree.prototype.order = function(n1, n2) {
 			n1 = n1.parentNode;
 			d1--;
 		}
-		if (n1 == n2) {
+		if (n1 === n2) {
 			return 1;
 		}
 	} else if (d2 > d1) {
@@ -2803,13 +2807,13 @@ AVLTree.prototype.order = function(n1, n2) {
 			n2 = n2.parentNode;
 			d2--;
 		}
-		if (n1 == n2) {
+		if (n1 === n2) {
 			return -1;
 		}
 	}
-	while (n1.parentNode != n2.parentNode) {
-		n1 = n1.parentNode;
-		n2 = n2.parentNode;
+	while (container(n1) !== container(n2)) {
+		n1 = container(n1);
+		n2 = container(n2);
 	}
 	while (n1.previousSibling != null && n2.previousSibling != null) {
 		n1 = n1.previousSibling;
@@ -2829,7 +2833,7 @@ AVLTree.prototype.add = function(n)  {
 	var o = this.order(n, this.node);
 	
     var ret = false;
-    if (o == -1) {
+    if (o === -1) {
         if (this.left == null) {
             this.left = new AVLTree(n);
             ret = true;
@@ -2839,7 +2843,7 @@ AVLTree.prototype.add = function(n)  {
                 this.balance();
             }
         }
-    } else if (o == 1) {
+    } else if (o === 1) {
         if (this.right == null) {
             this.right = new AVLTree(n);
             ret = true;
@@ -4303,14 +4307,14 @@ try {
 function SelectNodes(doc, xpath)
 {
 	var parser = new XPathParser();
-	var xpath = parser.parse(xpath);
+	var parsed = parser.parse(xpath);
 	var context = new XPathContext();
 	if(doc.documentElement){
 		context.expressionContextNode = doc.documentElement;
 	} else {
 		context.expressionContextNode = doc;
 	}
-	var res = xpath.evaluate(context)
+	var res = parsed.evaluate(context);
 	return res.toArray();
 }
 
